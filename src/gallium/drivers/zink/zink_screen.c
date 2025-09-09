@@ -899,9 +899,7 @@ zink_init_screen_caps(struct zink_screen *screen)
    caps->multi_draw_indirect_params = screen->info.have_KHR_draw_indirect_count;
 
    caps->start_instance =
-   caps->draw_parameters =
-      (screen->info.have_vulkan12 && screen->info.feats11.shaderDrawParameters) ||
-      screen->info.have_KHR_shader_draw_parameters;
+   caps->draw_parameters = screen->info.have_KHR_shader_draw_parameters;
 
    caps->vertex_element_instance_divisor =
       screen->info.have_EXT_vertex_attribute_divisor;
