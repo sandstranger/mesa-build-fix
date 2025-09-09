@@ -222,22 +222,22 @@ static void
 zink_get_device_luid(struct pipe_screen *pscreen, char *luid)
 {
    struct zink_screen *screen = zink_screen(pscreen);
-   if (screen->info.have_vulkan12) {
-      memcpy(luid, screen->info.props11.deviceLUID, VK_LUID_SIZE);
-   } else {
+//   if (screen->info.have_vulkan12) {
+  //    memcpy(luid, screen->info.props11.deviceLUID, VK_LUID_SIZE);
+  // } else {
       memcpy(luid, screen->info.deviceid_props.deviceLUID, VK_LUID_SIZE);
-   }
+//   }
 }
 
 static uint32_t
 zink_get_device_node_mask(struct pipe_screen *pscreen)
 {
    struct zink_screen *screen = zink_screen(pscreen);
-   if (screen->info.have_vulkan12) {
-      return screen->info.props11.deviceNodeMask;
-   } else {
+  // if (screen->info.have_vulkan12) {
+  //    return screen->info.props11.deviceNodeMask;
+//   } else {
       return screen->info.deviceid_props.deviceNodeMask;
-   }
+   //}
 }
 
 static void
@@ -871,8 +871,7 @@ zink_init_screen_caps(struct zink_screen *screen)
    caps->quads_follow_provoking_vertex_convention = true;
 
    caps->texture_mirror_clamp_to_edge =
-      screen->info.have_KHR_sampler_mirror_clamp_to_edge ||
-      (screen->info.have_vulkan12 && screen->info.feats12.samplerMirrorClampToEdge);
+      screen->info.have_KHR_sampler_mirror_clamp_to_edge;
 
    caps->polygon_offset_units_unscaled = true;
 
