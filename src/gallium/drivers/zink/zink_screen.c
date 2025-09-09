@@ -769,7 +769,7 @@ zink_init_screen_caps(struct zink_screen *screen)
 
    caps->null_textures = screen->info.rb_image_feats.robustImageAccess;
    /* support OVR_multiview and OVR_multiview2 */
-   caps->multiview = screen->info.have_vulkan13 ? 2 * screen->info.feats11.multiview : 0;
+   caps->multiview = 0;
    caps->texrect = false;
    caps->multi_draw_indirect_partial_stride = false;
    caps->anisotropic_filter = screen->info.feats.features.samplerAnisotropy;
@@ -2114,27 +2114,27 @@ retry:
          props.pNext = &mod_props;
       }
       VkFormatProperties3 props3 = {0};
-      if (screen->info.have_KHR_format_feature_flags2 || screen->info.have_vulkan13) {
+/*      if (screen->info.have_KHR_format_feature_flags2 || screen->info.have_vulkan13) {
          props3.sType = VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_3;
          props3.pNext = props.pNext;
          props.pNext = &props3;
       }
-
+*/
       VKSCR(GetPhysicalDeviceFormatProperties2)(screen->pdev, format, &props);
 
-      if (screen->info.have_KHR_format_feature_flags2 || screen->info.have_vulkan13) {
+   /*   if (screen->info.have_KHR_format_feature_flags2 || screen->info.have_vulkan13) {
          screen->format_props[pformat].linearTilingFeatures = props3.linearTilingFeatures;
          screen->format_props[pformat].optimalTilingFeatures = props3.optimalTilingFeatures;
          screen->format_props[pformat].bufferFeatures = props3.bufferFeatures;
 
          if (props3.linearTilingFeatures & VK_FORMAT_FEATURE_2_LINEAR_COLOR_ATTACHMENT_BIT_NV)
             screen->format_props[pformat].linearTilingFeatures |= VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT;
-      } else {
+      } else {*/
          // MoltenVk is 1.2 API
          screen->format_props[pformat].linearTilingFeatures = props.formatProperties.linearTilingFeatures;
          screen->format_props[pformat].optimalTilingFeatures = props.formatProperties.optimalTilingFeatures;
          screen->format_props[pformat].bufferFeatures = props.formatProperties.bufferFeatures;
-      }
+//      }
 
       if (screen->info.have_EXT_image_drm_format_modifier && mod_props.drmFormatModifierCount) {
          screen->modifier_props[pformat].drmFormatModifierCount = mod_props.drmFormatModifierCount;
